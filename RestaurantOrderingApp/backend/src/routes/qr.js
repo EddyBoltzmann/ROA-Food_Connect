@@ -1,4 +1,5 @@
 const express = require('express');
+const { body } = require('express-validator');
 const QRCode = require('qrcode');
 const Restaurant = require('../models/Restaurant');
 const { auth, authorize } = require('../middleware/auth');
@@ -134,7 +135,7 @@ router.post('/scan', [
         },
         tableNumber,
         type,
-        deepLink: `foodiehub://restaurant/${restaurantId}${tableNumber ? `?table=${tableNumber}` : ''}`
+        deepLink: `foodconnect://restaurant/${restaurantId}${tableNumber ? `?table=${tableNumber}` : ''}`
       }
     });
   } catch (error) {
