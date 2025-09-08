@@ -1,4 +1,4 @@
-# Restaurant Ordering App
+# Food Connect
 
 A comprehensive cross-platform mobile application for restaurant ordering, built with React Native and Node.js. Features include restaurant discovery, menu browsing, order management, real-time chat, loyalty system, and QR code-based dine-in access.
 
@@ -127,7 +127,7 @@ NODE_ENV=development
 CLIENT_URL=http://localhost:3000
 
 # Database - MongoDB Atlas (Cloud)
-MONGODB_URI=mongodb+srv://<username>:<password>@<cluster-url>/restaurant-ordering?retryWrites=true&w=majority
+MONGODB_URI=mongodb+srv://<username>:<password>@<cluster-url>/food-connect?retryWrites=true&w=majority
 
 # JWT
 JWT_SECRET=your-super-secret-jwt-key-here
@@ -228,7 +228,7 @@ curl http://localhost:5000/api/health
 
 ### Sample Login Credentials
 After seeding the database, you can use these credentials:
-- **Admin**: `admin@foodiehub.com` / `admin123`
+- **Admin**: `admin@foodconnect.com` / `admin123`
 - **Restaurant Owner**: `owner@bellavista.com` / `owner123`
 - **Customer**: `customer@example.com` / `customer123`
 
@@ -271,7 +271,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-For support, email support@foodiehub.com or join our Slack channel.
+For support, email support@foodconnect.com or join our Slack channel.
 
 ## 🎯 Roadmap
 

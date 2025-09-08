@@ -265,7 +265,7 @@ const AppNavigator = () => {
               component={RestaurantDashboardScreen}
               options={{
                 headerShown: true,
-                title: 'Restaurant Dashboard',
+                title: 'Food Connect - Dashboard',
                 headerStyle: {
                   backgroundColor: '#2ECC71',
                 },
@@ -280,7 +280,7 @@ const AppNavigator = () => {
               component={GlassmorphismDemoScreen}
               options={{
                 headerShown: true,
-                title: 'Glassmorphism Demo',
+                title: 'Food Connect - UI Demo',
                 headerStyle: {
                   backgroundColor: '#2ECC71',
                 },

@@ -117,7 +117,7 @@ const AuthScreen: React.FC = () => {
               <Text style={styles.logo}>🍽️</Text>
             </LinearGradient>
           </View>
-          <Text style={styles.title}>FoodieHub</Text>
+          <Text style={styles.title}>Food Connect</Text>
           <Text style={styles.subtitle}>
             {isLogin ? 'Welcome back!' : 'Create your account'}
           </Text>

@@ -35,8 +35,8 @@ const GlassmorphismDemoScreen: React.FC = () => {
       <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
         {/* Header */}
         <View style={styles.header}>
-          <Text style={styles.title}>Glassmorphism Demo</Text>
-          <Text style={styles.subtitle}>Modern UI with glass effects</Text>
+          <Text style={styles.title}>Food Connect</Text>
+          <Text style={styles.subtitle}>Glassmorphism Demo - Modern UI with glass effects</Text>
         </View>
 
         {/* Glassmorphism Cards Section */}

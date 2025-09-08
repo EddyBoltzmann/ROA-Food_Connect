@@ -1,7 +1,7 @@
 {
-  "name": "restaurant-ordering-backend",
+  "name": "food-connect-backend",
   "version": "1.0.0",
-  "description": "Backend API for Restaurant Ordering App",
+  "description": "Backend API for Food Connect App",
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
@@ -13,7 +13,7 @@
     "seed:dev": "NODE_ENV=development node src/utils/seedDatabase.js",
     "seed:prod": "NODE_ENV=production node src/utils/seedDatabase.js"
   },
-  "keywords": ["restaurant", "ordering", "api", "nodejs", "express"],
+  "keywords": ["food", "connect", "restaurant", "ordering", "api", "nodejs", "express"],
   "author": "Your Name",
   "license": "MIT",
   "dependencies": {

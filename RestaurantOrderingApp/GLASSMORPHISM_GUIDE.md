@@ -2,7 +2,7 @@
 
 ## 🎨 Overview
 
-This guide covers the implementation of glassmorphism effects in the Restaurant Ordering App. Glassmorphism is a modern UI design trend that creates a "glass-like" appearance with subtle transparency, blur effects, and elegant borders.
+This guide covers the implementation of glassmorphism effects in the Food Connect app. Glassmorphism is a modern UI design trend that creates a "glass-like" appearance with subtle transparency, blur effects, and elegant borders.
 
 ## ✨ Features Implemented
 
@@ -235,7 +235,7 @@ const glassmorphismTheme = {
 
 ## 🎉 Conclusion
 
-The glassmorphism implementation provides a modern, elegant user interface that enhances the overall user experience. The components are:
+The glassmorphism implementation provides a modern, elegant user interface that enhances the overall user experience of Food Connect. The components are:
 
 - **Reusable**: Easy to implement across the app
 - **Customizable**: Flexible theming and styling options

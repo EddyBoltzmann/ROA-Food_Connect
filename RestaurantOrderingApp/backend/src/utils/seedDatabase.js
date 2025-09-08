@@ -10,7 +10,7 @@ const MenuItem = require('../models/MenuItem');
 // Sample data
 const sampleUsers = [
   {
-    email: 'admin@foodiehub.com',
+    email: 'admin@foodconnect.com',
     password: 'admin123',
     name: 'Admin User',
     phone: '+1234567890',
@@ -385,7 +385,7 @@ async function seedDatabase() {
 
     // Display sample login credentials
     console.log('\n🔑 Sample Login Credentials:');
-    console.log('Admin: admin@foodiehub.com / admin123');
+    console.log('Admin: admin@foodconnect.com / admin123');
     console.log('Restaurant Owner: owner@bellavista.com / owner123');
     console.log('Customer: customer@example.com / customer123');
 

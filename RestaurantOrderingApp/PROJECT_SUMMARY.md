@@ -1,8 +1,8 @@
-# Restaurant Ordering App - Project Summary
+# Food Connect - Project Summary
 
 ## 🎯 Project Overview
 
-I have successfully created a comprehensive Restaurant Ordering Application with modern UI/UX inspired by Uber Eats, DoorDash, Glovo, and Jumia Food. The app is built with React Native (TypeScript) for the frontend and Node.js with Express for the backend.
+I have successfully created a comprehensive Food Connect application with modern UI/UX inspired by Uber Eats, DoorDash, Glovo, and Jumia Food. The app is built with React Native (TypeScript) for the frontend and Node.js with Express for the backend.
 
 ## ✅ Completed Features
 

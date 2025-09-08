@@ -2,7 +2,7 @@
 
 ## 🌐 Overview
 
-This guide will help you set up MongoDB Atlas (Cloud MongoDB) for the Restaurant Ordering App backend. MongoDB Atlas is a fully managed cloud database service that provides high availability, automatic scaling, and global distribution.
+This guide will help you set up MongoDB Atlas (Cloud MongoDB) for the Food Connect app backend. MongoDB Atlas is a fully managed cloud database service that provides high availability, automatic scaling, and global distribution.
 
 ## 🚀 Step-by-Step Setup
 
@@ -27,7 +27,7 @@ This guide will help you set up MongoDB Atlas (Cloud MongoDB) for the Restaurant
    - **Dedicated Clusters**: For large-scale production
 
 3. **Configure Cluster**
-   - Cluster Name: `restaurant-ordering-cluster`
+   - Cluster Name: `food-connect-cluster`
    - MongoDB Version: Latest stable version
    - Click "Create Cluster"
 
@@ -37,7 +37,7 @@ This guide will help you set up MongoDB Atlas (Cloud MongoDB) for the Restaurant
    - Go to "Database Access" in the left sidebar
    - Click "Add New Database User"
    - Choose "Password" authentication
-   - Username: `restaurant-app-user`
+   - Username: `food-connect-user`
    - Password: Generate a strong password (save it!)
    - Database User Privileges: "Read and write to any database"
    - Click "Add User"
@@ -60,7 +60,7 @@ This guide will help you set up MongoDB Atlas (Cloud MongoDB) for the Restaurant
 
 2. **Copy Connection String**
    ```
-   mongodb+srv://<username>:<password>@<cluster-url>/restaurant-ordering?retryWrites=true&w=majority
+   mongodb+srv://<username>:<password>@<cluster-url>/food-connect?retryWrites=true&w=majority
    ```
 
 3. **Replace Placeholders**
@@ -81,7 +81,7 @@ NODE_ENV=development
 CLIENT_URL=http://localhost:3000
 
 # Database - MongoDB Atlas
-MONGODB_URI=mongodb+srv://restaurant-app-user:your-password@restaurant-ordering-cluster.xxxxx.mongodb.net/restaurant-ordering?retryWrites=true&w=majority
+MONGODB_URI=mongodb+srv://food-connect-user:your-password@food-connect-cluster.xxxxx.mongodb.net/food-connect?retryWrites=true&w=majority
 
 # JWT
 JWT_SECRET=your-super-secret-jwt-key-here
@@ -115,8 +115,8 @@ npm run dev
 You should see:
 ```
 ✅ Connected to MongoDB Atlas
-📊 Database: restaurant-ordering
-🌐 Host: restaurant-ordering-cluster-shard-00-00.xxxxx.mongodb.net
+📊 Database: food-connect
+🌐 Host: food-connect-cluster-shard-00-00.xxxxx.mongodb.net
 🔗 Mongoose connected to MongoDB Atlas
 ```
 
@@ -275,7 +275,7 @@ The app will automatically create these collections:
 
 ### 2. Connection String for Production
 ```env
-MONGODB_URI=mongodb+srv://prod-user:secure-password@prod-cluster.xxxxx.mongodb.net/restaurant-ordering-prod?retryWrites=true&w=majority&authSource=admin
+MONGODB_URI=mongodb+srv://prod-user:secure-password@prod-cluster.xxxxx.mongodb.net/food-connect-prod?retryWrites=true&w=majority&authSource=admin
 ```
 
 ### 3. Performance Optimization

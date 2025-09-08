@@ -96,8 +96,8 @@ const SplashScreen: React.FC = () => {
         </View>
         
         {/* App Name */}
-        <Text style={styles.appName}>FoodieHub</Text>
-        <Text style={styles.tagline}>Order. Eat. Enjoy.</Text>
+        <Text style={styles.appName}>Food Connect</Text>
+        <Text style={styles.tagline}>Connect. Order. Enjoy.</Text>
         
         {/* Loading indicator with Glassmorphism */}
         <View style={styles.loadingContainer}>
