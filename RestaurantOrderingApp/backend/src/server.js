@@ -50,13 +50,50 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 // Logging
 app.use(morgan('combined'));
 
-// Database connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/restaurant-ordering', {
+// Database connection - MongoDB Atlas
+mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  maxPoolSize: 10, // Maintain up to 10 socket connections
+  serverSelectionTimeoutMS: 5000, // Keep trying to send operations for 5 seconds
+  socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
+  bufferMaxEntries: 0, // Disable mongoose buffering
+  bufferCommands: false, // Disable mongoose buffering
 })
-.then(() => console.log('Connected to MongoDB'))
-.catch(err => console.error('MongoDB connection error:', err));
+.then(() => {
+  console.log('✅ Connected to MongoDB Atlas');
+  console.log(`📊 Database: ${mongoose.connection.name}`);
+  console.log(`🌐 Host: ${mongoose.connection.host}`);
+})
+.catch(err => {
+  console.error('❌ MongoDB Atlas connection error:', err);
+  process.exit(1);
+});
+
+// Handle connection events
+mongoose.connection.on('connected', () => {
+  console.log('🔗 Mongoose connected to MongoDB Atlas');
+});
+
+mongoose.connection.on('error', (err) => {
+  console.error('❌ Mongoose connection error:', err);
+});
+
+mongoose.connection.on('disconnected', () => {
+  console.log('🔌 Mongoose disconnected from MongoDB Atlas');
+});
+
+// Graceful shutdown
+process.on('SIGINT', async () => {
+  try {
+    await mongoose.connection.close();
+    console.log('🔒 MongoDB Atlas connection closed through app termination');
+    process.exit(0);
+  } catch (err) {
+    console.error('❌ Error closing MongoDB Atlas connection:', err);
+    process.exit(1);
+  }
+});
 
 // Routes
 app.use('/api/auth', authRoutes);
@@ -73,6 +110,26 @@ app.get('/api/health', (req, res) => {
     timestamp: new Date().toISOString(),
     uptime: process.uptime()
   });
+});
+
+// Database health check endpoint
+app.get('/api/health/database', async (req, res) => {
+  try {
+    const DatabaseHealth = require('./utils/databaseHealth');
+    const dbHealth = new DatabaseHealth();
+    const healthReport = await dbHealth.getHealthReport();
+    
+    const statusCode = healthReport.status === 'healthy' ? 200 : 
+                      healthReport.status === 'degraded' ? 200 : 503;
+    
+    res.status(statusCode).json(healthReport);
+  } catch (error) {
+    res.status(503).json({
+      status: 'unhealthy',
+      timestamp: new Date().toISOString(),
+      error: error.message
+    });
+  }
 });
 
 // Socket.IO connection handling

@@ -53,7 +53,7 @@ A comprehensive cross-platform mobile application for restaurant ordering, built
 ### Prerequisites
 - Node.js (v16 or higher)
 - React Native development environment
-- MongoDB
+- MongoDB Atlas account (recommended) or local MongoDB
 - Redis (optional, for caching)
 
 ### Installation
@@ -75,22 +75,37 @@ A comprehensive cross-platform mobile application for restaurant ordering, built
    npm install
    ```
 
-4. **Set up environment variables**
+4. **Set up MongoDB Atlas (Recommended)**
+   ```bash
+   # Create a MongoDB Atlas account at https://www.mongodb.com/atlas
+   # Create a free cluster (M0 tier)
+   # Create a database user with read/write permissions
+   # Add your IP address to network access
+   # Get your connection string
+   ```
+
+5. **Set up environment variables**
    ```bash
    # Copy the example environment file
    cp backend/.env.example backend/.env
    
-   # Edit the .env file with your configuration
+   # Edit the .env file with your MongoDB Atlas connection string
    nano backend/.env
    ```
 
-5. **Start the backend server**
+6. **Seed the database with sample data**
+   ```bash
+   cd backend
+   npm run seed
+   ```
+
+7. **Start the backend server**
    ```bash
    cd backend
    npm run dev
    ```
 
-6. **Start the React Native app**
+8. **Start the React Native app**
    ```bash
    # For iOS
    npx react-native run-ios
@@ -111,8 +126,8 @@ PORT=5000
 NODE_ENV=development
 CLIENT_URL=http://localhost:3000
 
-# Database
-MONGODB_URI=mongodb://localhost:27017/restaurant-ordering
+# Database - MongoDB Atlas (Cloud)
+MONGODB_URI=mongodb+srv://<username>:<password>@<cluster-url>/restaurant-ordering?retryWrites=true&w=majority
 
 # JWT
 JWT_SECRET=your-super-secret-jwt-key-here
@@ -182,6 +197,40 @@ src/
 ### QR Codes
 - `GET /api/qr/restaurant/:id` - Generate restaurant QR code
 - `POST /api/qr/scan` - Process QR code scan
+
+### Health Checks
+- `GET /api/health` - Basic health check
+- `GET /api/health/database` - Database health check with detailed stats
+
+## 🗄️ Database Management
+
+### Seeding the Database
+```bash
+# Seed with sample data
+cd backend
+npm run seed
+
+# Seed for development environment
+npm run seed:dev
+
+# Seed for production environment
+npm run seed:prod
+```
+
+### Database Health Monitoring
+```bash
+# Check database health
+curl http://localhost:5000/api/health/database
+
+# Basic health check
+curl http://localhost:5000/api/health
+```
+
+### Sample Login Credentials
+After seeding the database, you can use these credentials:
+- **Admin**: `admin@foodiehub.com` / `admin123`
+- **Restaurant Owner**: `owner@bellavista.com` / `owner123`
+- **Customer**: `customer@example.com` / `customer123`
 
 ## 🧪 Testing
 
