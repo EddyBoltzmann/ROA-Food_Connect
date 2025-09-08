@@ -7,10 +7,11 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@store/index';
 import { loginUser, registerUser, clearError } from '@store/slices/authSlice';
-import { Button, Input } from '@components';
+import { Button, Input, GlassmorphismButton, GlassmorphismInput } from '@components';
 import { lightTheme } from '@utils/theme';
 
 const AuthScreen: React.FC = () => {
@@ -98,110 +99,128 @@ const AuthScreen: React.FC = () => {
   };
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-      <View style={styles.header}>
-        <Text style={styles.logo}>🍽️</Text>
-        <Text style={styles.title}>FoodieHub</Text>
-        <Text style={styles.subtitle}>
-          {isLogin ? 'Welcome back!' : 'Create your account'}
-        </Text>
-      </View>
-
-      <View style={styles.form}>
-        {!isLogin && (
-          <Input
-            label="Full Name"
-            placeholder="Enter your full name"
-            value={formData.name}
-            onChangeText={(text) => setFormData({ ...formData, name: text })}
-            error={errors.name}
-            theme={lightTheme}
-          />
-        )}
-
-        <Input
-          label="Email"
-          placeholder="Enter your email"
-          value={formData.email}
-          onChangeText={(text) => setFormData({ ...formData, email: text })}
-          keyboardType="email-address"
-          autoCapitalize="none"
-          error={errors.email}
-          theme={lightTheme}
-        />
-
-        <Input
-          label="Password"
-          placeholder="Enter your password"
-          value={formData.password}
-          onChangeText={(text) => setFormData({ ...formData, password: text })}
-          secureTextEntry
-          error={errors.password}
-          theme={lightTheme}
-        />
-
-        {!isLogin && (
-          <Input
-            label="Confirm Password"
-            placeholder="Confirm your password"
-            value={formData.confirmPassword}
-            onChangeText={(text) => setFormData({ ...formData, confirmPassword: text })}
-            secureTextEntry
-            error={errors.confirmPassword}
-            theme={lightTheme}
-          />
-        )}
-
-        {error && (
-          <Text style={styles.errorText}>{error}</Text>
-        )}
-
-        <Button
-          title={isLogin ? 'Sign In' : 'Sign Up'}
-          onPress={handleSubmit}
-          loading={isLoading}
-          theme={lightTheme}
-          style={styles.submitButton}
-        />
-
-        <View style={styles.divider}>
-          <View style={styles.dividerLine} />
-          <Text style={styles.dividerText}>or</Text>
-          <View style={styles.dividerLine} />
-        </View>
-
-        <View style={styles.socialButtons}>
-          <TouchableOpacity
-            style={[styles.socialButton, styles.googleButton]}
-            onPress={() => handleSocialLogin('google')}
-          >
-            <Text style={styles.socialButtonText}>Google</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[styles.socialButton, styles.facebookButton]}
-            onPress={() => handleSocialLogin('facebook')}
-          >
-            <Text style={styles.socialButtonText}>Facebook</Text>
-          </TouchableOpacity>
-        </View>
-
-        <TouchableOpacity style={styles.toggleButton} onPress={toggleMode}>
-          <Text style={styles.toggleButtonText}>
-            {isLogin
-              ? "Don't have an account? Sign Up"
-              : 'Already have an account? Sign In'}
+    <LinearGradient
+      colors={['#2ECC71', '#27AE60', '#229954']}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 1 }}
+      style={styles.container}
+    >
+      <ScrollView contentContainerStyle={styles.contentContainer}>
+        <View style={styles.header}>
+          <View style={styles.logoContainer}>
+            <LinearGradient
+              colors={['rgba(255, 255, 255, 0.3)', 'rgba(255, 255, 255, 0.1)']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={styles.logoGradient}
+            >
+              <Text style={styles.logo}>🍽️</Text>
+            </LinearGradient>
+          </View>
+          <Text style={styles.title}>FoodieHub</Text>
+          <Text style={styles.subtitle}>
+            {isLogin ? 'Welcome back!' : 'Create your account'}
           </Text>
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+        </View>
+
+        <View style={styles.form}>
+          {!isLogin && (
+            <GlassmorphismInput
+              label="Full Name"
+              placeholder="Enter your full name"
+              value={formData.name}
+              onChangeText={(text) => setFormData({ ...formData, name: text })}
+              error={errors.name}
+              theme={lightTheme}
+            />
+          )}
+
+          <GlassmorphismInput
+            label="Email"
+            placeholder="Enter your email"
+            value={formData.email}
+            onChangeText={(text) => setFormData({ ...formData, email: text })}
+            keyboardType="email-address"
+            autoCapitalize="none"
+            error={errors.email}
+            theme={lightTheme}
+          />
+
+          <GlassmorphismInput
+            label="Password"
+            placeholder="Enter your password"
+            value={formData.password}
+            onChangeText={(text) => setFormData({ ...formData, password: text })}
+            secureTextEntry
+            error={errors.password}
+            theme={lightTheme}
+          />
+
+          {!isLogin && (
+            <GlassmorphismInput
+              label="Confirm Password"
+              placeholder="Confirm your password"
+              value={formData.confirmPassword}
+              onChangeText={(text) => setFormData({ ...formData, confirmPassword: text })}
+              secureTextEntry
+              error={errors.confirmPassword}
+              theme={lightTheme}
+            />
+          )}
+
+          {error && (
+            <Text style={styles.errorText}>{error}</Text>
+          )}
+
+          <GlassmorphismButton
+            title={isLogin ? 'Sign In' : 'Sign Up'}
+            onPress={handleSubmit}
+            loading={isLoading}
+            variant="primary"
+            theme={lightTheme}
+            style={styles.submitButton}
+          />
+
+          <View style={styles.divider}>
+            <View style={styles.dividerLine} />
+            <Text style={styles.dividerText}>or</Text>
+            <View style={styles.dividerLine} />
+          </View>
+
+          <View style={styles.socialButtons}>
+            <GlassmorphismButton
+              title="Google"
+              onPress={() => handleSocialLogin('google')}
+              variant="glass"
+              theme={lightTheme}
+              style={styles.socialButton}
+            />
+
+            <GlassmorphismButton
+              title="Facebook"
+              onPress={() => handleSocialLogin('facebook')}
+              variant="glass"
+              theme={lightTheme}
+              style={styles.socialButton}
+            />
+          </View>
+
+          <TouchableOpacity style={styles.toggleButton} onPress={toggleMode}>
+            <Text style={styles.toggleButtonText}>
+              {isLogin
+                ? "Don't have an account? Sign Up"
+                : 'Already have an account? Sign In'}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
   },
   contentContainer: {
     flexGrow: 1,
@@ -212,20 +231,35 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 40,
   },
+  logoContainer: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    marginBottom: 16,
+    overflow: 'hidden',
+  },
+  logoGradient: {
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.3)',
+    borderRadius: 50,
+  },
   logo: {
     fontSize: 60,
-    marginBottom: 16,
   },
   title: {
     fontSize: lightTheme.typography.fontSize.xxxl,
     fontFamily: lightTheme.typography.fontFamily.bold,
-    color: lightTheme.colors.text,
+    color: '#FFFFFF',
     marginBottom: 8,
   },
   subtitle: {
     fontSize: lightTheme.typography.fontSize.md,
     fontFamily: lightTheme.typography.fontFamily.regular,
-    color: lightTheme.colors.textSecondary,
+    color: 'rgba(255, 255, 255, 0.9)',
     textAlign: 'center',
   },
   form: {
@@ -234,7 +268,7 @@ const styles = StyleSheet.create({
   errorText: {
     fontSize: lightTheme.typography.fontSize.sm,
     fontFamily: lightTheme.typography.fontFamily.regular,
-    color: lightTheme.colors.error,
+    color: '#FF6B6B',
     textAlign: 'center',
     marginBottom: 16,
   },
@@ -249,12 +283,12 @@ const styles = StyleSheet.create({
   dividerLine: {
     flex: 1,
     height: 1,
-    backgroundColor: lightTheme.colors.border,
+    backgroundColor: 'rgba(255, 255, 255, 0.3)',
   },
   dividerText: {
     fontSize: lightTheme.typography.fontSize.sm,
     fontFamily: lightTheme.typography.fontFamily.regular,
-    color: lightTheme.colors.textSecondary,
+    color: 'rgba(255, 255, 255, 0.7)',
     marginHorizontal: 16,
   },
   socialButtons: {
@@ -264,25 +298,7 @@ const styles = StyleSheet.create({
   },
   socialButton: {
     flex: 1,
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderRadius: lightTheme.borderRadius.md,
     marginHorizontal: 8,
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: lightTheme.colors.border,
-  },
-  googleButton: {
-    backgroundColor: '#FFFFFF',
-  },
-  facebookButton: {
-    backgroundColor: '#1877F2',
-    borderColor: '#1877F2',
-  },
-  socialButtonText: {
-    fontSize: lightTheme.typography.fontSize.md,
-    fontFamily: lightTheme.typography.fontFamily.medium,
-    color: lightTheme.colors.text,
   },
   toggleButton: {
     alignItems: 'center',
@@ -291,7 +307,7 @@ const styles = StyleSheet.create({
   toggleButtonText: {
     fontSize: lightTheme.typography.fontSize.md,
     fontFamily: lightTheme.typography.fontFamily.medium,
-    color: lightTheme.colors.primary,
+    color: '#FFFFFF',
   },
 });
 

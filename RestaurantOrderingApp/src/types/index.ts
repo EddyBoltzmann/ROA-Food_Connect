@@ -198,6 +198,7 @@ export type RootStackParamList = {
   Profile: undefined;
   Loyalty: undefined;
   RestaurantDashboard: undefined;
+  GlassmorphismDemo: undefined;
 };
 
 export type MainTabParamList = {

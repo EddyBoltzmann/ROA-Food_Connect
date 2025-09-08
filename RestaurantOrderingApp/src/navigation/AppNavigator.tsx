@@ -23,6 +23,7 @@ import OrderTrackingScreen from '@screens/OrderTrackingScreen';
 import QRScanScreen from '@screens/QRScanScreen';
 import LoyaltyScreen from '@screens/LoyaltyScreen';
 import RestaurantDashboardScreen from '@screens/RestaurantDashboardScreen';
+import GlassmorphismDemoScreen from '@screens/GlassmorphismDemoScreen';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator<MainTabParamList>();
@@ -265,6 +266,21 @@ const AppNavigator = () => {
               options={{
                 headerShown: true,
                 title: 'Restaurant Dashboard',
+                headerStyle: {
+                  backgroundColor: '#2ECC71',
+                },
+                headerTintColor: '#FFFFFF',
+                headerTitleStyle: {
+                  fontFamily: 'Poppins-SemiBold',
+                },
+              }}
+            />
+            <Stack.Screen
+              name="GlassmorphismDemo"
+              component={GlassmorphismDemoScreen}
+              options={{
+                headerShown: true,
+                title: 'Glassmorphism Demo',
                 headerStyle: {
                   backgroundColor: '#2ECC71',
                 },

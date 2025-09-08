@@ -6,6 +6,7 @@ import {
   Animated,
   Dimensions,
 } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@store/index';
 import { setOnboardingCompleted } from '@store/slices/authSlice';
@@ -53,9 +54,19 @@ const SplashScreen: React.FC = () => {
   }, [dispatch, hasCompletedOnboarding, fadeAnim, scaleAnim, slideAnim]);
 
   return (
-    <View style={styles.container}>
+    <LinearGradient
+      colors={['#2ECC71', '#27AE60', '#229954']}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 1 }}
+      style={styles.container}
+    >
       <View style={styles.background}>
-        <View style={styles.gradientOverlay} />
+        <LinearGradient
+          colors={['rgba(255, 255, 255, 0.1)', 'rgba(255, 255, 255, 0.05)']}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={styles.gradientOverlay}
+        />
       </View>
       
       <Animated.View
@@ -70,10 +81,17 @@ const SplashScreen: React.FC = () => {
           },
         ]}
       >
-        {/* Logo/Icon */}
+        {/* Logo/Icon with Glassmorphism */}
         <View style={styles.logoContainer}>
           <View style={styles.logo}>
-            <Text style={styles.logoText}>🍽️</Text>
+            <LinearGradient
+              colors={['rgba(255, 255, 255, 0.3)', 'rgba(255, 255, 255, 0.1)']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={styles.logoGradient}
+            >
+              <Text style={styles.logoText}>🍽️</Text>
+            </LinearGradient>
           </View>
         </View>
         
@@ -81,21 +99,20 @@ const SplashScreen: React.FC = () => {
         <Text style={styles.appName}>FoodieHub</Text>
         <Text style={styles.tagline}>Order. Eat. Enjoy.</Text>
         
-        {/* Loading indicator */}
+        {/* Loading indicator with Glassmorphism */}
         <View style={styles.loadingContainer}>
-          <View style={styles.loadingDot} />
-          <View style={[styles.loadingDot, styles.loadingDotDelay1]} />
-          <View style={[styles.loadingDot, styles.loadingDotDelay2]} />
+          <View style={[styles.loadingDot, styles.glassmorphismDot]} />
+          <View style={[styles.loadingDot, styles.loadingDotDelay1, styles.glassmorphismDot]} />
+          <View style={[styles.loadingDot, styles.loadingDotDelay2, styles.glassmorphismDot]} />
         </View>
       </Animated.View>
-    </View>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: lightTheme.colors.primary,
   },
   background: {
     position: 'absolute',
@@ -103,7 +120,6 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: lightTheme.colors.primary,
   },
   gradientOverlay: {
     position: 'absolute',
@@ -111,7 +127,6 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(46, 204, 113, 0.1)',
   },
   content: {
     flex: 1,
@@ -126,10 +141,17 @@ const styles = StyleSheet.create({
     width: 120,
     height: 120,
     borderRadius: 60,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    overflow: 'hidden',
+    ...lightTheme.shadows.lg,
+  },
+  logoGradient: {
+    width: '100%',
+    height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    ...lightTheme.shadows.lg,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.3)',
+    borderRadius: 60,
   },
   logoText: {
     fontSize: 60,
@@ -158,6 +180,11 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
     marginHorizontal: 4,
+  },
+  glassmorphismDot: {
+    backgroundColor: 'rgba(255, 255, 255, 0.3)',
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.5)',
   },
   loadingDotDelay1: {
     animationDelay: '0.2s',

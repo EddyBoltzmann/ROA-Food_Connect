@@ -10,11 +10,12 @@ import {
   Image,
   Dimensions,
 } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { RootState } from '@store/index';
 import { fetchRestaurants, setSearchQuery } from '@store/slices/restaurantSlice';
-import { Card, Rating, RestaurantCardSkeleton } from '@components';
+import { Card, Rating, RestaurantCardSkeleton, GlassmorphismCard } from '@components';
 import { lightTheme } from '@utils/theme';
 import { Restaurant } from '@types/index';
 
@@ -48,6 +49,10 @@ const HomeScreen: React.FC = () => {
 
   const handleQRScanPress = () => {
     navigation.navigate('QRScan');
+  };
+
+  const handleGlassmorphismDemo = () => {
+    navigation.navigate('GlassmorphismDemo');
   };
 
   const filteredRestaurants = restaurants.filter(restaurant =>
@@ -115,8 +120,13 @@ const HomeScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      {/* Header */}
-      <View style={styles.header}>
+      {/* Header with Glassmorphism */}
+      <LinearGradient
+        colors={['#2ECC71', '#27AE60']}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={styles.header}
+      >
         <View style={styles.headerTop}>
           <View>
             <Text style={styles.greeting}>Good {getTimeOfDay()},</Text>
@@ -124,31 +134,52 @@ const HomeScreen: React.FC = () => {
           </View>
           <View style={styles.headerActions}>
             <TouchableOpacity style={styles.qrButton} onPress={handleQRScanPress}>
-              <Text style={styles.qrButtonText}>📱</Text>
+              <LinearGradient
+                colors={['rgba(255, 255, 255, 0.3)', 'rgba(255, 255, 255, 0.1)']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+                style={styles.glassmorphismButton}
+              >
+                <Text style={styles.qrButtonText}>📱</Text>
+              </LinearGradient>
             </TouchableOpacity>
             <TouchableOpacity style={styles.cartButton} onPress={handleCartPress}>
-              <Text style={styles.cartButtonText}>🛒</Text>
-              {itemCount > 0 && (
-                <View style={styles.cartBadge}>
-                  <Text style={styles.cartBadgeText}>{itemCount}</Text>
-                </View>
-              )}
+              <LinearGradient
+                colors={['rgba(255, 255, 255, 0.3)', 'rgba(255, 255, 255, 0.1)']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+                style={styles.glassmorphismButton}
+              >
+                <Text style={styles.cartButtonText}>🛒</Text>
+                {itemCount > 0 && (
+                  <View style={styles.cartBadge}>
+                    <Text style={styles.cartBadgeText}>{itemCount}</Text>
+                  </View>
+                )}
+              </LinearGradient>
             </TouchableOpacity>
           </View>
         </View>
 
-        {/* Search Bar */}
+        {/* Search Bar with Glassmorphism */}
         <View style={styles.searchContainer}>
-          <TextInput
-            style={styles.searchInput}
-            placeholder="Search restaurants, cuisines..."
-            placeholderTextColor={lightTheme.colors.textSecondary}
-            value={localSearchQuery}
-            onChangeText={handleSearch}
-          />
-          <Text style={styles.searchIcon}>🔍</Text>
+          <LinearGradient
+            colors={['rgba(255, 255, 255, 0.2)', 'rgba(255, 255, 255, 0.1)']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.searchGradient}
+          >
+            <TextInput
+              style={styles.searchInput}
+              placeholder="Search restaurants, cuisines..."
+              placeholderTextColor="rgba(255, 255, 255, 0.7)"
+              value={localSearchQuery}
+              onChangeText={handleSearch}
+            />
+            <Text style={styles.searchIcon}>🔍</Text>
+          </LinearGradient>
         </View>
-      </View>
+      </LinearGradient>
 
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
         {/* Featured Restaurants */}
@@ -164,27 +195,48 @@ const HomeScreen: React.FC = () => {
           />
         </View>
 
-        {/* Quick Actions */}
+        {/* Quick Actions with Glassmorphism */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Quick Actions</Text>
           <View style={styles.quickActions}>
-            <TouchableOpacity style={styles.quickAction}>
-              <Text style={styles.quickActionIcon}>🍕</Text>
-              <Text style={styles.quickActionText}>Pizza</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.quickAction}>
-              <Text style={styles.quickActionIcon}>🍔</Text>
-              <Text style={styles.quickActionText}>Burgers</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.quickAction}>
-              <Text style={styles.quickActionIcon}>🍜</Text>
-              <Text style={styles.quickActionText}>Asian</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.quickAction}>
-              <Text style={styles.quickActionIcon}>🥗</Text>
-              <Text style={styles.quickActionText}>Healthy</Text>
-            </TouchableOpacity>
+            <GlassmorphismCard theme={lightTheme} style={styles.quickActionCard}>
+              <TouchableOpacity style={styles.quickAction}>
+                <Text style={styles.quickActionIcon}>🍕</Text>
+                <Text style={styles.quickActionText}>Pizza</Text>
+              </TouchableOpacity>
+            </GlassmorphismCard>
+            <GlassmorphismCard theme={lightTheme} style={styles.quickActionCard}>
+              <TouchableOpacity style={styles.quickAction}>
+                <Text style={styles.quickActionIcon}>🍔</Text>
+                <Text style={styles.quickActionText}>Burgers</Text>
+              </TouchableOpacity>
+            </GlassmorphismCard>
+            <GlassmorphismCard theme={lightTheme} style={styles.quickActionCard}>
+              <TouchableOpacity style={styles.quickAction}>
+                <Text style={styles.quickActionIcon}>🍜</Text>
+                <Text style={styles.quickActionText}>Asian</Text>
+              </TouchableOpacity>
+            </GlassmorphismCard>
+            <GlassmorphismCard theme={lightTheme} style={styles.quickActionCard}>
+              <TouchableOpacity style={styles.quickAction}>
+                <Text style={styles.quickActionIcon}>🥗</Text>
+                <Text style={styles.quickActionText}>Healthy</Text>
+              </TouchableOpacity>
+            </GlassmorphismCard>
           </View>
+        </View>
+
+        {/* Demo Section */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>UI Demo</Text>
+          <GlassmorphismCard theme={lightTheme} style={styles.demoCard}>
+            <TouchableOpacity onPress={handleGlassmorphismDemo} style={styles.demoButton}>
+              <Text style={styles.demoTitle}>✨ Glassmorphism Demo</Text>
+              <Text style={styles.demoDescription}>
+                Explore modern glass effects and gradients
+              </Text>
+            </TouchableOpacity>
+          </GlassmorphismCard>
         </View>
 
         {/* Nearby Restaurants */}
@@ -220,7 +272,6 @@ const styles = StyleSheet.create({
     backgroundColor: lightTheme.colors.background,
   },
   header: {
-    backgroundColor: lightTheme.colors.primary,
     paddingTop: 50,
     paddingHorizontal: 20,
     paddingBottom: 20,
@@ -249,10 +300,8 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    justifyContent: 'center',
-    alignItems: 'center',
     marginRight: 12,
+    overflow: 'hidden',
   },
   qrButtonText: {
     fontSize: 20,
@@ -261,10 +310,17 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    position: 'relative',
+    overflow: 'hidden',
+  },
+  glassmorphismButton: {
+    width: '100%',
+    height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    position: 'relative',
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.3)',
+    borderRadius: 20,
   },
   cartButtonText: {
     fontSize: 20,
@@ -286,23 +342,26 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
   },
   searchContainer: {
+    borderRadius: lightTheme.borderRadius.lg,
+    overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.3)',
+  },
+  searchGradient: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#FFFFFF',
-    borderRadius: lightTheme.borderRadius.lg,
     paddingHorizontal: 16,
     paddingVertical: 12,
-    ...lightTheme.shadows.sm,
   },
   searchInput: {
     flex: 1,
     fontSize: lightTheme.typography.fontSize.md,
     fontFamily: lightTheme.typography.fontFamily.regular,
-    color: lightTheme.colors.text,
+    color: '#FFFFFF',
   },
   searchIcon: {
     fontSize: 20,
-    color: lightTheme.colors.textSecondary,
+    color: 'rgba(255, 255, 255, 0.7)',
   },
   content: {
     flex: 1,
@@ -356,6 +415,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     paddingHorizontal: 20,
+  },
+  quickActionCard: {
+    flex: 1,
+    marginHorizontal: 4,
   },
   quickAction: {
     alignItems: 'center',
@@ -425,6 +488,24 @@ const styles = StyleSheet.create({
   },
   skeletonContainer: {
     paddingHorizontal: 20,
+  },
+  demoCard: {
+    marginBottom: 16,
+  },
+  demoButton: {
+    alignItems: 'center',
+  },
+  demoTitle: {
+    fontSize: lightTheme.typography.fontSize.lg,
+    fontFamily: lightTheme.typography.fontFamily.bold,
+    color: '#FFFFFF',
+    marginBottom: 8,
+  },
+  demoDescription: {
+    fontSize: lightTheme.typography.fontSize.sm,
+    fontFamily: lightTheme.typography.fontFamily.regular,
+    color: 'rgba(255, 255, 255, 0.8)',
+    textAlign: 'center',
   },
 });
 

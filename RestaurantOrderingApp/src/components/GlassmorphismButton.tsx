@@ -10,10 +10,10 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import { Theme } from '@types/index';
 
-interface ButtonProps {
+interface GlassmorphismButtonProps {
   title: string;
   onPress: () => void;
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
+  variant?: 'primary' | 'secondary' | 'glass';
   size?: 'small' | 'medium' | 'large';
   disabled?: boolean;
   loading?: boolean;
@@ -23,7 +23,7 @@ interface ButtonProps {
   theme: Theme;
 }
 
-export const Button: React.FC<ButtonProps> = ({
+export const GlassmorphismButton: React.FC<GlassmorphismButtonProps> = ({
   title,
   onPress,
   variant = 'primary',
@@ -42,7 +42,6 @@ export const Button: React.FC<ButtonProps> = ({
       alignItems: 'center',
       justifyContent: 'center',
       overflow: 'hidden',
-      ...theme.shadows.sm,
     };
 
     // Size styles
@@ -63,40 +62,11 @@ export const Button: React.FC<ButtonProps> = ({
         baseStyle.minHeight = 48;
     }
 
-    // Variant styles
-    switch (variant) {
-      case 'primary':
-        baseStyle.backgroundColor = theme.colors.primary;
-        break;
-      case 'secondary':
-        baseStyle.backgroundColor = theme.colors.secondary;
-        break;
-      case 'outline':
-        baseStyle.backgroundColor = 'transparent';
-        baseStyle.borderWidth = 1;
-        baseStyle.borderColor = theme.colors.primary;
-        break;
-      case 'ghost':
-        baseStyle.backgroundColor = 'transparent';
-        break;
-    }
-
     if (disabled || loading) {
       baseStyle.opacity = 0.6;
     }
 
     return baseStyle;
-  };
-
-  const getGradientColors = (): string[] => {
-    switch (variant) {
-      case 'primary':
-        return [theme.colors.primary, '#27AE60'];
-      case 'secondary':
-        return [theme.colors.secondary, '#E67E22'];
-      default:
-        return [theme.colors.primary, '#27AE60'];
-    }
   };
 
   const getTextStyle = (): TextStyle => {
@@ -123,61 +93,62 @@ export const Button: React.FC<ButtonProps> = ({
       case 'secondary':
         baseStyle.color = '#FFFFFF';
         break;
-      case 'outline':
-      case 'ghost':
-        baseStyle.color = theme.colors.primary;
+      case 'glass':
+        baseStyle.color = theme.colors.text;
         break;
     }
 
     return baseStyle;
   };
 
-  const renderButtonContent = () => {
-    if (loading) {
-      return (
-        <ActivityIndicator
-          size="small"
-          color={variant === 'outline' || variant === 'ghost' ? theme.colors.primary : '#FFFFFF'}
-        />
-      );
+  const getGradientColors = (): string[] => {
+    switch (variant) {
+      case 'primary':
+        return [theme.colors.primary, '#27AE60'];
+      case 'secondary':
+        return [theme.colors.secondary, '#E67E22'];
+      case 'glass':
+        return ['rgba(255, 255, 255, 0.2)', 'rgba(255, 255, 255, 0.1)'];
+      default:
+        return [theme.colors.primary, '#27AE60'];
     }
-
-    return (
-      <>
-        {icon && <>{icon}</>}
-        <Text style={[getTextStyle(), textStyle]}>{title}</Text>
-      </>
-    );
   };
 
-  if (variant === 'primary' || variant === 'secondary') {
-    return (
-      <TouchableOpacity
-        style={[getButtonStyle(), style]}
-        onPress={onPress}
-        disabled={disabled || loading}
-        activeOpacity={0.8}
-      >
-        <LinearGradient
-          colors={getGradientColors()}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={styles.gradient}
-        >
-          {renderButtonContent()}
-        </LinearGradient>
-      </TouchableOpacity>
-    );
-  }
+  const getBorderStyle = (): ViewStyle => {
+    if (variant === 'glass') {
+      return {
+        borderWidth: 1,
+        borderColor: 'rgba(255, 255, 255, 0.3)',
+      };
+    }
+    return {};
+  };
 
   return (
     <TouchableOpacity
-      style={[getButtonStyle(), style]}
+      style={[getButtonStyle(), getBorderStyle(), style]}
       onPress={onPress}
       disabled={disabled || loading}
       activeOpacity={0.8}
     >
-      {renderButtonContent()}
+      <LinearGradient
+        colors={getGradientColors()}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={styles.gradient}
+      >
+        {loading ? (
+          <ActivityIndicator
+            size="small"
+            color={variant === 'glass' ? theme.colors.text : '#FFFFFF'}
+          />
+        ) : (
+          <>
+            {icon && <>{icon}</>}
+            <Text style={[getTextStyle(), textStyle]}>{title}</Text>
+          </>
+        )}
+      </LinearGradient>
     </TouchableOpacity>
   );
 };
