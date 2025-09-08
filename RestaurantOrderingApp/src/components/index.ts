@@ -7,3 +7,4 @@ export { SkeletonLoader, RestaurantCardSkeleton, MenuItemSkeleton } from './Skel
 export { GlassmorphismCard } from './GlassmorphismCard';
 export { GlassmorphismButton } from './GlassmorphismButton';
 export { GlassmorphismInput } from './GlassmorphismInput';
+export { RestaurantCardSkeleton } from './RestaurantCardSkeleton';

@@ -1,5 +1,6 @@
 // Core Types
 export interface User {
+  _id: string;
   id: string;
   email: string;
   name: string;
@@ -10,6 +11,9 @@ export interface User {
   addresses: Address[];
   paymentMethods: PaymentMethod[];
   preferences: UserPreferences;
+  language: string;
+  isDarkMode: boolean;
+  token?: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -48,6 +52,7 @@ export interface UserPreferences {
 }
 
 export interface Restaurant {
+  _id: string;
   id: string;
   name: string;
   description: string;
@@ -81,6 +86,7 @@ export interface OpeningHours {
 }
 
 export interface MenuItem {
+  _id: string;
   id: string;
   name: string;
   description: string;
@@ -124,6 +130,7 @@ export interface SelectedCustomization {
 }
 
 export interface Order {
+  _id: string;
   id: string;
   userId: string;
   restaurantId: string;
@@ -132,10 +139,12 @@ export interface Order {
   deliveryFee: number;
   tax: number;
   discount: number;
+  totalAmount: number;
   total: number;
   status: OrderStatus;
-  paymentMethod: PaymentMethod;
-  deliveryAddress: Address;
+  paymentMethod: string;
+  deliveryAddress: string;
+  specialInstructions?: string;
   estimatedDeliveryTime: string;
   actualDeliveryTime?: string;
   notes?: string;
@@ -146,13 +155,13 @@ export interface Order {
 }
 
 export type OrderStatus = 
-  | 'placed'
-  | 'confirmed'
-  | 'preparing'
-  | 'ready'
-  | 'out_for_delivery'
-  | 'delivered'
-  | 'cancelled';
+  | 'Placed'
+  | 'Confirmed'
+  | 'Preparing'
+  | 'Ready'
+  | 'Out for Delivery'
+  | 'Delivered'
+  | 'Cancelled';
 
 export interface ChatMessage {
   id: string;
@@ -188,12 +197,12 @@ export type RootStackParamList = {
   Onboarding: undefined;
   Auth: undefined;
   Main: undefined;
-  RestaurantDetail: { restaurantId: string };
+  RestaurantDetail: { restaurantId: string; tableNumber?: string; fromQR?: boolean };
   MenuItemDetail: { menuItem: MenuItem };
-  Cart: undefined;
-  Checkout: undefined;
+  Cart: { items: any[] };
+  Checkout: { items: any[]; subtotal: number; deliveryFee: number; total: number };
   OrderTracking: { orderId: string };
-  Chat: { orderId: string };
+  Chat: { restaurantId: string };
   QRScan: undefined;
   Profile: undefined;
   Loyalty: undefined;
@@ -239,7 +248,9 @@ export interface Theme {
     textSecondary: string;
     border: string;
     error: string;
+    errorRed: string;
     success: string;
+    successGreen: string;
     warning: string;
     info: string;
   };
@@ -273,6 +284,7 @@ export interface Theme {
     md: number;
     lg: number;
     xl: number;
+    full: number;
   };
   shadows: {
     sm: object;

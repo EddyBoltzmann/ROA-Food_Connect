@@ -11,7 +11,9 @@ export const lightTheme: Theme = {
     textSecondary: '#6B7280',
     border: '#E5E7EB',
     error: '#E74C3C',
+    errorRed: '#E74C3C',
     success: '#2ECC71',
+    successGreen: '#2ECC71',
     warning: '#F39C12',
     info: '#3498DB',
   },
@@ -45,6 +47,7 @@ export const lightTheme: Theme = {
     md: 8,
     lg: 12,
     xl: 16,
+    full: 999,
   },
   shadows: {
     sm: {
