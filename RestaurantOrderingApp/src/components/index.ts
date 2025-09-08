@@ -8,3 +8,6 @@ export { GlassmorphismCard } from './GlassmorphismCard';
 export { GlassmorphismButton } from './GlassmorphismButton';
 export { GlassmorphismInput } from './GlassmorphismInput';
 export { RestaurantCardSkeleton } from './RestaurantCardSkeleton';
+export { AnimatedSlider } from './AnimatedSlider';
+export { RoleSlider } from './RoleSlider';
+export { AuthModeSlider } from './AuthModeSlider';

@@ -130,6 +130,17 @@ const userSchema = new mongoose.Schema({
     enum: ['customer', 'restaurant_owner', 'chef', 'admin'],
     default: 'customer'
   },
+  // Restaurant owner specific fields
+  restaurantName: {
+    type: String,
+    trim: true,
+    maxlength: [100, 'Restaurant name cannot exceed 100 characters']
+  },
+  restaurantAddress: {
+    type: String,
+    trim: true,
+    maxlength: [200, 'Restaurant address cannot exceed 200 characters']
+  },
   loyaltyPoints: {
     type: Number,
     default: 0,

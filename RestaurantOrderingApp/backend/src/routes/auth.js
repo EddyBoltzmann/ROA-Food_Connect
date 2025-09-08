@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { body, validationResult } = require('express-validator');
 const User = require('../models/User');
-const auth = require('../middleware/auth');
+const { auth } = require('../middleware/auth');
 
 const router = express.Router();
 
@@ -35,7 +35,25 @@ router.post('/register', [
     .withMessage('Please enter a valid email'),
   body('password')
     .isLength({ min: 6 })
-    .withMessage('Password must be at least 6 characters long')
+    .withMessage('Password must be at least 6 characters long'),
+  body('role')
+    .optional()
+    .isIn(['customer', 'restaurant_owner'])
+    .withMessage('Role must be either customer or restaurant_owner'),
+  body('restaurantName')
+    .if(body('role').equals('restaurant_owner'))
+    .trim()
+    .isLength({ min: 2, max: 100 })
+    .withMessage('Restaurant name is required for restaurant owners'),
+  body('restaurantAddress')
+    .if(body('role').equals('restaurant_owner'))
+    .trim()
+    .isLength({ min: 10, max: 200 })
+    .withMessage('Restaurant address is required for restaurant owners'),
+  body('phone')
+    .if(body('role').equals('restaurant_owner'))
+    .matches(/^\+?[\d\s-()]+$/)
+    .withMessage('Phone number is required for restaurant owners')
 ], async (req, res) => {
   try {
     // Check for validation errors
@@ -48,7 +66,15 @@ router.post('/register', [
       });
     }
 
-    const { name, email, password, phone } = req.body;
+    const { 
+      name, 
+      email, 
+      password, 
+      phone, 
+      role = 'customer',
+      restaurantName,
+      restaurantAddress
+    } = req.body;
 
     // Check if user already exists
     const existingUser = await User.findOne({ email });
@@ -59,13 +85,23 @@ router.post('/register', [
       });
     }
 
-    // Create new user
-    const user = new User({
+    // Create user data object
+    const userData = {
       name,
       email,
       password,
+      role,
       phone: phone || undefined
-    });
+    };
+
+    // If restaurant owner, add restaurant-specific fields
+    if (role === 'restaurant_owner') {
+      userData.restaurantName = restaurantName;
+      userData.restaurantAddress = restaurantAddress;
+    }
+
+    // Create new user
+    const user = new User(userData);
 
     await user.save();
 
@@ -90,6 +126,100 @@ router.post('/register', [
     res.status(500).json({
       success: false,
       message: 'Server error during registration'
+    });
+  }
+});
+
+// @route   POST /api/auth/register/restaurant
+// @desc    Register a new restaurant owner
+// @access  Public
+router.post('/register/restaurant', [
+  body('name')
+    .trim()
+    .isLength({ min: 2, max: 50 })
+    .withMessage('Name must be between 2 and 50 characters'),
+  body('email')
+    .isEmail()
+    .normalizeEmail()
+    .withMessage('Please enter a valid email'),
+  body('password')
+    .isLength({ min: 6 })
+    .withMessage('Password must be at least 6 characters long'),
+  body('restaurantName')
+    .trim()
+    .isLength({ min: 2, max: 100 })
+    .withMessage('Restaurant name must be between 2 and 100 characters'),
+  body('restaurantAddress')
+    .trim()
+    .isLength({ min: 10, max: 200 })
+    .withMessage('Restaurant address must be between 10 and 200 characters'),
+  body('phone')
+    .matches(/^\+?[\d\s-()]+$/)
+    .withMessage('Please enter a valid phone number')
+], async (req, res) => {
+  try {
+    // Check for validation errors
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        success: false,
+        message: 'Validation failed',
+        errors: errors.array()
+      });
+    }
+
+    const { 
+      name, 
+      email, 
+      password, 
+      phone, 
+      restaurantName,
+      restaurantAddress
+    } = req.body;
+
+    // Check if user already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({
+        success: false,
+        message: 'User already exists with this email'
+      });
+    }
+
+    // Create new restaurant owner
+    const user = new User({
+      name,
+      email,
+      password,
+      phone,
+      role: 'restaurant_owner',
+      restaurantName,
+      restaurantAddress
+    });
+
+    await user.save();
+
+    // Generate tokens
+    const token = generateToken(user._id);
+    const refreshToken = generateRefreshToken(user._id);
+
+    // Remove password from response
+    user.password = undefined;
+
+    res.status(201).json({
+      success: true,
+      message: 'Restaurant owner registered successfully',
+      data: {
+        user,
+        token,
+        refreshToken
+      }
+    });
+  } catch (error) {
+    console.error('Restaurant registration error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error during restaurant registration'
     });
   }
 });

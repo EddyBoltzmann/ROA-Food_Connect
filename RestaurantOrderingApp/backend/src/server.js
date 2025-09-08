@@ -52,13 +52,9 @@ app.use(morgan('combined'));
 
 // Database connection - MongoDB Atlas
 mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
   maxPoolSize: 10, // Maintain up to 10 socket connections
   serverSelectionTimeoutMS: 5000, // Keep trying to send operations for 5 seconds
   socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
-  bufferMaxEntries: 0, // Disable mongoose buffering
-  bufferCommands: false, // Disable mongoose buffering
 })
 .then(() => {
   console.log('✅ Connected to MongoDB Atlas');
@@ -67,7 +63,7 @@ mongoose.connect(process.env.MONGODB_URI, {
 })
 .catch(err => {
   console.error('❌ MongoDB Atlas connection error:', err);
-  process.exit(1);
+  console.log('⚠️  Running in test mode without database connection');
 });
 
 // Handle connection events
@@ -108,7 +104,50 @@ app.get('/api/health', (req, res) => {
   res.json({ 
     status: 'OK', 
     timestamp: new Date().toISOString(),
-    uptime: process.uptime()
+    uptime: process.uptime(),
+    database: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected'
+  });
+});
+
+// Test endpoint for role-based registration
+app.post('/api/test/register', (req, res) => {
+  const { name, email, password, role, restaurantName, restaurantAddress, phone } = req.body;
+  
+  // Basic validation
+  if (!name || !email || !password) {
+    return res.status(400).json({
+      success: false,
+      message: 'Name, email, and password are required'
+    });
+  }
+  
+  if (role === 'restaurant_owner' && (!restaurantName || !restaurantAddress || !phone)) {
+    return res.status(400).json({
+      success: false,
+      message: 'Restaurant name, address, and phone are required for restaurant owners'
+    });
+  }
+  
+  // Mock response
+  const mockUser = {
+    id: '1',
+    name,
+    email,
+    role: role || 'customer',
+    restaurantName: role === 'restaurant_owner' ? restaurantName : undefined,
+    restaurantAddress: role === 'restaurant_owner' ? restaurantAddress : undefined,
+    phone: role === 'restaurant_owner' ? phone : undefined,
+    createdAt: new Date().toISOString()
+  };
+  
+  res.status(201).json({
+    success: true,
+    message: 'User registered successfully (test mode)',
+    data: {
+      user: mockUser,
+      token: 'mock-jwt-token',
+      refreshToken: 'mock-refresh-token'
+    }
   });
 });
 

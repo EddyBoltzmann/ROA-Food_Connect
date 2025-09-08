@@ -11,7 +11,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@store/index';
 import { loginUser, registerUser, clearError } from '@store/slices/authSlice';
-import { Button, Input, GlassmorphismButton, GlassmorphismInput } from '@components';
+import { Button, Input, GlassmorphismButton, GlassmorphismInput, RoleSlider, AuthModeSlider } from '@components';
 import { lightTheme } from '@utils/theme';
 
 const AuthScreen: React.FC = () => {
@@ -19,11 +19,15 @@ const AuthScreen: React.FC = () => {
   const { isLoading, error } = useSelector((state: RootState) => state.auth);
   
   const [isLogin, setIsLogin] = useState(true);
+  const [selectedRole, setSelectedRole] = useState<'customer' | 'restaurant_owner'>('customer');
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
     confirmPassword: '',
+    restaurantName: '',
+    restaurantAddress: '',
+    phone: '',
   });
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
@@ -45,6 +49,18 @@ const AuthScreen: React.FC = () => {
     if (!isLogin) {
       if (!formData.name) {
         newErrors.name = 'Name is required';
+      }
+
+      if (selectedRole === 'restaurant_owner') {
+        if (!formData.restaurantName) {
+          newErrors.restaurantName = 'Restaurant name is required';
+        }
+        if (!formData.restaurantAddress) {
+          newErrors.restaurantAddress = 'Restaurant address is required';
+        }
+        if (!formData.phone) {
+          newErrors.phone = 'Phone number is required';
+        }
       }
 
       if (!formData.confirmPassword) {
@@ -74,6 +90,12 @@ const AuthScreen: React.FC = () => {
           name: formData.name,
           email: formData.email,
           password: formData.password,
+          role: selectedRole,
+          ...(selectedRole === 'restaurant_owner' && {
+            restaurantName: formData.restaurantName,
+            restaurantAddress: formData.restaurantAddress,
+            phone: formData.phone,
+          }),
         })).unwrap();
       }
     } catch (error) {
@@ -86,16 +108,24 @@ const AuthScreen: React.FC = () => {
     Alert.alert('Coming Soon', `${provider} login will be available soon!`);
   };
 
-  const toggleMode = () => {
-    setIsLogin(!isLogin);
+  const toggleMode = (mode: boolean) => {
+    setIsLogin(mode);
     setFormData({
       name: '',
       email: '',
       password: '',
       confirmPassword: '',
+      restaurantName: '',
+      restaurantAddress: '',
+      phone: '',
     });
     setErrors({});
     dispatch(clearError());
+  };
+
+  const handleRoleChange = (role: 'customer' | 'restaurant_owner') => {
+    setSelectedRole(role);
+    setErrors({});
   };
 
   return (
@@ -123,6 +153,22 @@ const AuthScreen: React.FC = () => {
           </Text>
         </View>
 
+        {/* Auth Mode Slider */}
+        <AuthModeSlider
+          isLogin={isLogin}
+          onModeChange={toggleMode}
+          theme={lightTheme}
+        />
+
+        {/* Role Slider - Only show for signup */}
+        {!isLogin && (
+          <RoleSlider
+            selectedRole={selectedRole}
+            onRoleChange={handleRoleChange}
+            theme={lightTheme}
+          />
+        )}
+
         <View style={styles.form}>
           {!isLogin && (
             <GlassmorphismInput
@@ -133,6 +179,40 @@ const AuthScreen: React.FC = () => {
               error={errors.name}
               theme={lightTheme}
             />
+          )}
+
+          {!isLogin && selectedRole === 'restaurant_owner' && (
+            <>
+              <GlassmorphismInput
+                label="Restaurant Name"
+                placeholder="Enter your restaurant name"
+                value={formData.restaurantName}
+                onChangeText={(text) => setFormData({ ...formData, restaurantName: text })}
+                error={errors.restaurantName}
+                theme={lightTheme}
+              />
+
+              <GlassmorphismInput
+                label="Restaurant Address"
+                placeholder="Enter your restaurant address"
+                value={formData.restaurantAddress}
+                onChangeText={(text) => setFormData({ ...formData, restaurantAddress: text })}
+                error={errors.restaurantAddress}
+                theme={lightTheme}
+                multiline
+                numberOfLines={2}
+              />
+
+              <GlassmorphismInput
+                label="Phone Number"
+                placeholder="Enter your phone number"
+                value={formData.phone}
+                onChangeText={(text) => setFormData({ ...formData, phone: text })}
+                error={errors.phone}
+                theme={lightTheme}
+                keyboardType="phone-pad"
+              />
+            </>
           )}
 
           <GlassmorphismInput
@@ -205,13 +285,6 @@ const AuthScreen: React.FC = () => {
             />
           </View>
 
-          <TouchableOpacity style={styles.toggleButton} onPress={toggleMode}>
-            <Text style={styles.toggleButtonText}>
-              {isLogin
-                ? "Don't have an account? Sign Up"
-                : 'Already have an account? Sign In'}
-            </Text>
-          </TouchableOpacity>
         </View>
       </ScrollView>
     </LinearGradient>
@@ -299,15 +372,6 @@ const styles = StyleSheet.create({
   socialButton: {
     flex: 1,
     marginHorizontal: 8,
-  },
-  toggleButton: {
-    alignItems: 'center',
-    paddingVertical: 16,
-  },
-  toggleButtonText: {
-    fontSize: lightTheme.typography.fontSize.md,
-    fontFamily: lightTheme.typography.fontFamily.medium,
-    color: '#FFFFFF',
   },
 });
 

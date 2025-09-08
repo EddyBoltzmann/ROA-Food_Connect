@@ -58,7 +58,15 @@ export const loginUser = createAsyncThunk(
 
 export const registerUser = createAsyncThunk(
   'auth/registerUser',
-  async (userData: { email: string; password: string; name: string }, { rejectWithValue }) => {
+  async (userData: { 
+    email: string; 
+    password: string; 
+    name: string; 
+    role?: 'customer' | 'restaurant_owner';
+    phone?: string;
+    restaurantName?: string;
+    restaurantAddress?: string;
+  }, { rejectWithValue }) => {
     try {
       // TODO: Implement actual API call
       // const response = await authService.register(userData);
@@ -69,7 +77,8 @@ export const registerUser = createAsyncThunk(
         id: '1',
         email: userData.email,
         name: userData.name,
-        role: 'customer',
+        phone: userData.phone,
+        role: userData.role || 'customer',
         loyaltyPoints: 0,
         addresses: [],
         paymentMethods: [],
