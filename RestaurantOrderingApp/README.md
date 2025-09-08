@@ -229,8 +229,23 @@ curl http://localhost:5000/api/health
 ### Sample Login Credentials
 After seeding the database, you can use these credentials:
 - **Admin**: `admin@foodconnect.com` / `admin123`
-- **Restaurant Owner**: `owner@bellavista.com` / `owner123`
+- **Restaurant Owner**: `owner@auntieama.com` / `owner123`
 - **Customer**: `customer@example.com` / `customer123`
+
+### Sample Restaurants (Ghanaian Cuisine)
+The database includes authentic Ghanaian restaurants with traditional dishes:
+- **Auntie Ama's Kitchen** (Accra) - Traditional Ghanaian cuisine with waakye, banku, and fufu
+- **Kofi's Chop Bar** (Kumasi) - Authentic chop bar experience with banku, fufu, and palm wine
+- **Mama Grace's Waakye Spot** (Accra) - Specializing in the best waakye in Accra
+
+### Traditional Ghanaian Dishes Available
+- **Waakye** - Rice and beans with traditional accompaniments
+- **Banku** - Fermented corn and cassava dough with fish
+- **Fufu** - Pounded cassava and plantain with soup
+- **Jollof Rice** - Aromatic Ghanaian jollof with chicken
+- **Red Red** - Black-eyed peas with fried plantain
+- **Kelewele** - Spiced fried plantain cubes
+- **Fresh Palm Wine** - Traditional Ghanaian palm wine
 
 ## 🧪 Testing
 

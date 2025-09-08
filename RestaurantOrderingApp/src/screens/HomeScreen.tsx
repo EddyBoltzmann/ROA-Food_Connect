@@ -171,7 +171,7 @@ const HomeScreen: React.FC = () => {
           >
             <TextInput
               style={styles.searchInput}
-              placeholder="Search restaurants, cuisines..."
+              placeholder="Search waakye, banku, fufu..."
               placeholderTextColor="rgba(255, 255, 255, 0.7)"
               value={localSearchQuery}
               onChangeText={handleSearch}
@@ -201,26 +201,26 @@ const HomeScreen: React.FC = () => {
           <View style={styles.quickActions}>
             <GlassmorphismCard theme={lightTheme} style={styles.quickActionCard}>
               <TouchableOpacity style={styles.quickAction}>
-                <Text style={styles.quickActionIcon}>🍕</Text>
-                <Text style={styles.quickActionText}>Pizza</Text>
+                <Text style={styles.quickActionIcon}>🍚</Text>
+                <Text style={styles.quickActionText}>Waakye</Text>
               </TouchableOpacity>
             </GlassmorphismCard>
             <GlassmorphismCard theme={lightTheme} style={styles.quickActionCard}>
               <TouchableOpacity style={styles.quickAction}>
-                <Text style={styles.quickActionIcon}>🍔</Text>
-                <Text style={styles.quickActionText}>Burgers</Text>
+                <Text style={styles.quickActionIcon}>🐟</Text>
+                <Text style={styles.quickActionText}>Banku</Text>
               </TouchableOpacity>
             </GlassmorphismCard>
             <GlassmorphismCard theme={lightTheme} style={styles.quickActionCard}>
               <TouchableOpacity style={styles.quickAction}>
-                <Text style={styles.quickActionIcon}>🍜</Text>
-                <Text style={styles.quickActionText}>Asian</Text>
+                <Text style={styles.quickActionIcon}>🍲</Text>
+                <Text style={styles.quickActionText}>Fufu</Text>
               </TouchableOpacity>
             </GlassmorphismCard>
             <GlassmorphismCard theme={lightTheme} style={styles.quickActionCard}>
               <TouchableOpacity style={styles.quickAction}>
-                <Text style={styles.quickActionIcon}>🥗</Text>
-                <Text style={styles.quickActionText}>Healthy</Text>
+                <Text style={styles.quickActionIcon}>🍷</Text>
+                <Text style={styles.quickActionText}>Palm Wine</Text>
               </TouchableOpacity>
             </GlassmorphismCard>
           </View>
